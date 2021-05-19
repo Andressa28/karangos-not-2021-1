@@ -32,7 +32,7 @@ export  default function FooterBar(){
     return (
         <Toolbar className={classes.toolbar}>
             <Typography variant="caption" align="center" className={classes.text}>
-                Desenvolvido com <LocalCafeTwoToneIcon fontSize="small" /> por <a    href="mailto:mateuscenteno76@gmail.com" className={classes.link}>Mateus Centeno</a>
+                Desenvolvido com <LocalCafeTwoToneIcon fontSize="small" /> por <a    href="mailto:andressacportela@gmail.com" className={classes.link}>Andressa Portela</a>
             </Typography>
         </Toolbar>
     )
