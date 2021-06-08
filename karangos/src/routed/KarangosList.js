@@ -21,8 +21,6 @@ import ConfirmDialog from '../ui/ConfirmDialog'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
@@ -44,16 +42,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
 export default function KarangosList() {
   const classes = useStyles();
 
-
-
   const history = useHistory()
-
-
 
   // É importante inicializar esta variável de estado como um vetor vazio
   const [karangos, setKarangos] = useState([])
@@ -62,32 +54,26 @@ export default function KarangosList() {
   const [snackState, setSnackState] = useState({
     open: false,
     severity: 'success',
-    message: 'Karango excluído com sucesso'
+    message: 'Karango excluído com sucesso'  
   })
-
-
 
   function handleDialogClose(result) {
     setDialogOpen(false)
-    if (result) deleteItem()
+    if(result) deleteItem()
   }
-
-
 
   function handleDeleteClick(id) {
     setDeletable(id)
     setDialogOpen(true)
   }
 
-
-
   async function deleteItem() {
     try {
       await axios.delete(`https://api.faustocintra.com.br/karangos/${deletable}`)
       getData()   // Atualiza os dados da tabelas
-      setSnackState({ ...snackState, open: true }) // Exibe a snackbar de sucesso    
+      setSnackState({...snackState, open: true}) // Exibe a snackbar de sucesso    
     }
-    catch (error) {
+    catch(error) {
       // Mostra a snackbar de erro
       setSnackState({
         open: true,
@@ -100,32 +86,26 @@ export default function KarangosList() {
   async function getData() {
     try {
       let response = await axios.get('https://api.faustocintra.com.br/karangos?by=marca,modelo')
-      if (response.data.length > 0) setKarangos(response.data)
+      if(response.data.length > 0) setKarangos(response.data)
     }
-    catch (error) {
+    catch(error) {
       console.error(error)
     }
   }
 
-
-
   useEffect(() => {
     getData()
   }, [])  // Quando a dependência de um useEffect é um vetor vazio, isso indica
-  // que ele será executado apenas uma vez, na inicialização do componente
-
-
+          // que ele será executado apenas uma vez, na inicialização do componente
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-
-
   function handleSnackClose(event, reason) {
     // Evita que a snackbar seja fechada clicando-se fora dela
-    if (reason === 'clickaway') return
-    setSnackState({ ...snackState, open: false }) // Fecha a snackbar
+    if(reason === 'clickaway') return
+    setSnackState({...snackState, open: false}) // Fecha a snackbar
   }
 
   return (
@@ -133,68 +113,68 @@ export default function KarangosList() {
       <ConfirmDialog isOpen={dialogOpen} onClose={handleDialogClose}>
         Deseja realmente excluir este karango?
       </ConfirmDialog>
-
+      
       <Snackbar open={snackState.open} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity={snackState.severity}>
           {snackState.message}
         </Alert>
       </Snackbar>
-
+      
       <h1>Listagem de Karangos</h1>
       <Toolbar className={classes.toolbar} >
-        <Button color="secondary" variant="contained" size="large"
-          startIcon={<AddBoxIcon />} onClick={() => history.push("/new")}>
+        <Button color="secondary" variant="contained" size="large" 
+          startIcon={<AddBoxIcon />} onClick={() => history.push("/new") }>
           Novo Karango
         </Button>
       </Toolbar>
       <TableContainer component={Paper}>
-        <Table className={classes.table} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">Cód.</TableCell>
-              <TableCell>Marca</TableCell>
-              <TableCell>Modelo</TableCell>
-              <TableCell>Cor</TableCell>
-              <TableCell align="center">Ano</TableCell>
-              <TableCell align="center">Importado?</TableCell>
-              <TableCell align="center">Placa</TableCell>
-              <TableCell align="right">Preço</TableCell>
-              <TableCell align="center">Editar</TableCell>
-              <TableCell align="center">Excluir</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              karangos.map(karango =>
-                <TableRow key={karango.id} className={classes.tableRow}>
-                  <TableCell align="right">{karango.id}</TableCell>
-                  <TableCell>{karango.marca}</TableCell>
-                  <TableCell>{karango.modelo}</TableCell>
-                  <TableCell>{karango.cor}</TableCell>
-                  <TableCell align="center">{karango.ano_fabricacao}</TableCell>
-                  <TableCell align="center">
-                    <Checkbox checked={karango.importado === '1'} readOnly />
-                  </TableCell>
-                  <TableCell align="center">{karango.placa}</TableCell>
-                  <TableCell align="right">
-                    {Number(karango.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton aria-label="edit">
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton aria-label="delete" onClick={() => handleDeleteClick(karango.id)}>
-                      <DeleteIcon color="error" />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              )
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Cód.</TableCell>
+            <TableCell>Marca</TableCell>
+            <TableCell>Modelo</TableCell>
+            <TableCell>Cor</TableCell>
+            <TableCell align="center">Ano</TableCell>
+            <TableCell align="center">Importado?</TableCell>
+            <TableCell align="center">Placa</TableCell>
+            <TableCell align="right">Preço</TableCell>
+            <TableCell align="center">Editar</TableCell>
+            <TableCell align="center">Excluir</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {
+            karangos.map(karango => 
+              <TableRow key={karango.id} className={classes.tableRow}>
+                <TableCell align="right">{karango.id}</TableCell>
+                <TableCell>{karango.marca}</TableCell>
+                <TableCell>{karango.modelo}</TableCell>
+                <TableCell>{karango.cor}</TableCell>
+                <TableCell align="center">{karango.ano_fabricacao}</TableCell>
+                <TableCell align="center">
+                  <Checkbox checked={karango.importado === '1'} readOnly />
+                </TableCell>
+                <TableCell align="center">{karango.placa}</TableCell>
+                <TableCell align="right">
+                  { Number(karango.preco).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) }
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton aria-label="edit">
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton aria-label="delete" onClick={() => handleDeleteClick(karango.id)}>
+                    <DeleteIcon color="error" />
+                  </IconButton>
+                </TableCell>    
+              </TableRow>
+            )
+          }
+        </TableBody>
+      </Table>
+    </TableContainer>
     </>
   )
 }

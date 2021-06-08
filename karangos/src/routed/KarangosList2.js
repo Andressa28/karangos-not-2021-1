@@ -46,6 +46,7 @@ export default function KarangosList() {
   const [sbSeverity, setSbSeverity] = useState('success')
   const [sbMessage, setSbMessage] = useState('Exclusão realizada com sucesso.')
   
+  
   const history = useHistory()
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function KarangosList() {
 
   async function getData() {
     try { // tenta buscar os dados
+      
       let response = await axios.get('https://api.faustocintra.com.br/karangos?by=marca,modelo')
       if(response.data.length > 0) setKarangos(response.data)
     }
@@ -100,7 +102,7 @@ export default function KarangosList() {
       align: 'right',
       headerAlign: 'right',  
       flex: true,
-      
+      disableColumnMenu: true,
       sortComparator: (v1, v2) => Number(v1) > Number(v2) ? 1 : -1
     },
     { 
@@ -163,7 +165,7 @@ export default function KarangosList() {
       headerAlign: 'center', 
       flex: true,
       renderCell: params => (
-        <IconButton aria-label="editar">
+        <IconButton aria-label="editar" onClick={() =>history.push(`/edit/${params.id}`)}>
           <EditIcon />
         </IconButton>
       )
